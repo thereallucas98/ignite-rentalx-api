@@ -32,6 +32,7 @@ class ImportCategoryUseCase {
 
       })
         .on("end", () => {
+          fs.promises.unlink(file.path);
           resolve(categories);
         })
         .on("error", (error) => {
@@ -48,7 +49,7 @@ class ImportCategoryUseCase {
 
       const existCategory = this.categoriesRepository.findByName(name);
 
-      if(!existCategory) {
+      if (!existCategory) {
         this.categoriesRepository.create({
           name,
           description,
