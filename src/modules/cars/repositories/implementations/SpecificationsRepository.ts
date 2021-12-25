@@ -1,5 +1,8 @@
-import { Specification } from "../../model/Specification";
-import { ICreateSpecificationDTO, ISpecificationsRepository } from "../ISpecificationsRepository";
+import { Specification } from '../../entities/Specification';
+import {
+  ICreateSpecificationDTO,
+  ISpecificationsRepository,
+} from '../ISpecificationsRepository';
 
 class SpecificationsRepository implements ISpecificationsRepository {
   private specifications: Specification[];
@@ -7,7 +10,7 @@ class SpecificationsRepository implements ISpecificationsRepository {
   private static INSTANCE: SpecificationsRepository;
 
   constructor() {
-    this.specifications =[];
+    this.specifications = [];
   }
 
   public static getInstance(): SpecificationsRepository {
@@ -17,7 +20,7 @@ class SpecificationsRepository implements ISpecificationsRepository {
 
     return SpecificationsRepository.INSTANCE;
   }
-  
+
   create({ name, description }: ICreateSpecificationDTO): void {
     const specification = new Specification();
 
