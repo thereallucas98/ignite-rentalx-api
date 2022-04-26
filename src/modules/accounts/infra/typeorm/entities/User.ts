@@ -8,7 +8,7 @@ class User {
 
   @Column()
   name: string;
-  
+
   @Column()
   password: string;
 
@@ -26,7 +26,6 @@ class User {
 
   @CreateDateColumn()
   created_at: Date;
-
 
   constructor() {
     if (!this.id) {
