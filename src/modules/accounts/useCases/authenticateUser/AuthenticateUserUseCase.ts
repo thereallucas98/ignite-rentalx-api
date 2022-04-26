@@ -1,8 +1,10 @@
 import { compare } from "bcrypt";
 import { sign } from "jsonwebtoken";
 import { inject, injectable } from "tsyringe";
+
+import { AppError } from "../../../../errors/AppError";
 import { UsersRepository } from "../../repositories/implementations/UsersRepository";
-import { AppError } from '../../../../errors/AppError';
+import { IUsersRepository } from "../../repositories/IUsersRepository";
 
 interface IRequest {
   email: string;
@@ -13,7 +15,7 @@ interface IResponse {
   user: {
     name: string;
     email: string;
-  },
+  };
   token: string;
 }
 
@@ -21,7 +23,7 @@ interface IResponse {
 class AuthenticateUserUseCase {
   constructor(
     @inject("UsersRepository")
-    private usersRepository: UsersRepository
+    private usersRepository: IUsersRepository
   ) {}
 
   async execute({ email, password }: IRequest): Promise<IResponse> {
@@ -34,7 +36,7 @@ class AuthenticateUserUseCase {
     //
     const passwordMatch = await compare(password, user.password);
 
-    if(!passwordMatch) {
+    if (!passwordMatch) {
       throw new AppError("Email or password incorrect.");
     }
 
@@ -48,8 +50,8 @@ class AuthenticateUserUseCase {
       user: {
         name: user.name,
         email: user.email,
-      }
-    }
+      },
+    };
 
     return tokenResponse;
   }
