@@ -4,12 +4,13 @@ export class AlterUserDeleteUsername1643323583601
   implements MigrationInterface
 {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.addColumn("users", 
+    await queryRunner.addColumn(
+      "users",
       new TableColumn({
         name: "username",
         type: "varchar",
         isNullable: true,
-      }),
+      })
     );
   }
 
