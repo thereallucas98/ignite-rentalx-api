@@ -15,6 +15,8 @@ async function create() {
       values('${id}', 'admin', 'admin@rentx.com.br', '${password}', true, 'now()', 'ABC-123')
     `
   );
+
+  await connection.close;
 }
 
 create()
