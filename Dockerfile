@@ -1,5 +1,6 @@
 FROM node:alpine
 
+RUN apt-get update || : && apt-get install python -y
 # Quando o container rodar, vai definir a pasta (diretório) onde as informações
 # estarão contidas.
 WORKDIR /usr/app
