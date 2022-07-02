@@ -5,16 +5,16 @@
     "description": "This is an API Rent",
     "version": "1.0.0",
     "contact": {
-      "name": "Software Engineer",
-      "email": "lucas1998david@gmail.com"
+      "email": "davidlucas@rocketseat.com.br"
     }
   },
   "paths": {
     "/categories": {
       "post": {
         "tags": ["Category"],
-        "summary": "Create a Category",
-        "description": "Creating a new car category",
+        "summary": "Create a category",
+        "description": "Create a new category",
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "content": {
             "application/json": {
@@ -29,8 +29,8 @@
                   }
                 },
                 "example": {
-                  "name": "Sedan",
-                  "description": "Automátivel de três marchas"
+                  "name": "category name sample",
+                  "description": "Category description sample"
                 }
               }
             }
@@ -47,8 +47,8 @@
       },
       "get": {
         "tags": ["Category"],
-        "summary": "List Categories",
-        "description": "List all categories that has been created",
+        "summary": "List all categories",
+        "description": "List all categories",
         "responses": {
           "200": {
             "description": "Success",
@@ -78,7 +78,8 @@
       "post": {
         "tags": ["Category"],
         "summary": "Upload a new category",
-        "description": "Upload csv a new category[ies]",
+        "description": "Upload a new category",
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -106,6 +107,7 @@
         "tags": ["Specifications"],
         "summary": "Create a specification",
         "description": "Create a new specification",
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "content": {
             "application/json": {
@@ -120,7 +122,106 @@
             "description": "Created"
           },
           "500": {
-            "description": "Specification already exists"
+            "description": "Specification already exists!"
+          }
+        }
+      }
+    },
+    "/sessions": {
+      "post": {
+        "tags": ["Session"],
+        "summary": "Authentication user",
+        "description": "Authentication user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Email or password incorrect!"
+          }
+        }
+      }
+    },
+    "/cars": {
+      "post": {
+        "tags": ["Cars"],
+        "summary": "Create a new car",
+        "description": "Create a new car",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Car"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Car already exists!"
+          }
+        }
+      }
+    },
+    "/cars/images/{id}": {
+      "post": {
+        "tags": ["Cars"],
+        "summary": "Upload images",
+        "description": "Upload images",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Car id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "images": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
           }
         }
       }
@@ -136,6 +237,41 @@
         "description": {
           "type": "string"
         }
+      }
+    },
+    "Car": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "daily_rate": {
+          "type": "number"
+        },
+        "license_plate": {
+          "type": "string"
+        },
+        "fine_amount": {
+          "type": "number"
+        },
+        "brand": {
+          "type": "string"
+        },
+        "category_id": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }
